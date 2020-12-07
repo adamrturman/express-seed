@@ -19,13 +19,14 @@ app.use(express.urlencoded({ extended: true }))
 
 
 // require route files
-const exampleRoutes = require('../app/routes/example_routes')
-const userRoutes = require('../app/routes/user_routes')
-
+// const exampleRoutes = require('../app/routes/example_routes')
+// const userRoutes = require('../app/routes/user_routes')
+const routes = require('../app/routes/index.route')
 
 // register route files
-app.use(exampleRoutes)
-app.use(userRoutes)
+// app.use(exampleRoutes)
+// app.use(userRoutes)
+app.use(routes)
 
 // register error handling middleware
 // note that this comes after the route middlewares, because it needs to be
