@@ -1,14 +1,6 @@
-const express = require('./app/express')
 const mongoose = require('mongoose')
-const cors = require('cors')
-const app = require('./app/express')
-const port = require('./app/express')
+const express = require('./app/express')
 const db = require('./config/db')
-
-
-// require database configuration logic
-// `db` will be the actual Mongo URI as a string
-
 
 // establish database connection
 // use new version of URL parser
@@ -18,5 +10,10 @@ mongoose.connect(db, {
   useCreateIndex: true
 })
 
+// run API on designated port (4741 in this case)
+express.app.listen(express.port, () => {
+  console.log('listening on port ' + express.port)
+})
+
 // needed for testing
-module.exports = app
+module.exports = express

@@ -1,12 +1,10 @@
 // require necessary NPM packages
 const express = require('express')
-const mongoose = require('mongoose')
 const cors = require('cors')
 const ports = require('../config/ports')
-console.log('We are here')
+
 // instantiate express application object
 const app = express()
-
 
 // define port for API to run on
 const port = process.env.PORT || ports.serverDevPort
@@ -55,10 +53,10 @@ app.use(userRoutes)
 // passed any error messages from them
 app.use(errorHandler)
 
-// run API on designated port (4741 in this case)
-app.listen(port, () => {
-  console.log('listening on port ' + port)
-})
+
+// app.listen(port, () => {
+//     console.log('listening on port ' + port)
+//   })
 
 module.exports = {
     app,
