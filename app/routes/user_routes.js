@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt')
 const bcryptSaltRounds = 10
 
 // pull in error types and the logic to handle them and set status codes
-const errors = require('../../lib/custom_errors')
+const errors = require('../../lib/index.lib')
 
 const BadParamsError = errors.BadParamsError
 const BadCredentialsError = errors.BadCredentialsError

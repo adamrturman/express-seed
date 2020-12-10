@@ -8,7 +8,7 @@ const Example = require('../models/example')
 
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
-const customErrors = require('../../lib/custom_errors')
+const customErrors = require('../../lib/index.lib')
 
 // we'll use this function to send 404 when non-existant document is requested
 const handle404 = customErrors.handle404
