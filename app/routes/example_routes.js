@@ -33,6 +33,7 @@ const destroyMethod = require('./exampleRoutes/destroy')
 // instantiate a router (mini app that only handles routes)
 const router = express.Router()
 
+//  Routes for Example CRUD 
 router.use(getMethod.getAll)
 router.use(postMethod.post)
 router.use(showMethod.show)
