@@ -8,10 +8,11 @@ const { get } = require('./controllers/exampleController')
 const { show } = require('./controllers/exampleController')
 const { post } = require('./controllers/exampleController')
 const { patch } = require('./controllers/exampleController')
+const { destroy } = require('./controllers/exampleController')
 // const postMethod = require('./exampleRoutes/post')
 // const showMethod = require('./exampleRoutes/show')
 // const patchMethod = require('./exampleRoutes/patch')
-const destroyMethod = require('./exampleRoutes/destroy')
+// const destroyMethod = require('./exampleRoutes/destroy')
 
 // instantiate a router (mini app that only handles routes)
 const router = express.Router()
@@ -25,7 +26,8 @@ router.get('/examples/:id', requireToken, show)
 router.post('/examples', requireToken, post)
 // router.use(patchMethod.patch)
 router.patch('/examples/:id', requireToken, removeBlanks, patch)
-router.use(destroyMethod.destroy)
+// router.use(destroyMethod.destroy)
+router.delete('/examples/:id', requireToken, destroy)
 
 
 module.exports = router

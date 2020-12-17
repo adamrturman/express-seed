@@ -66,9 +66,25 @@ const post = (req, res, next) => {
       .catch(next)
   }
 
+  const destroy = (req, res, next) => {
+    Example.findById(req.params.id)
+      .then(handle404)
+      .then(example => {
+        // throw an error if current user doesn't own `example`
+        requireOwnership(req, example)
+        // delete the example ONLY IF the above didn't throw
+        example.deleteOne()
+      })
+      // send back 204 and no content if the deletion succeeded
+      .then(() => res.sendStatus(204))
+      // if an error occurs, pass it to the handler
+      .catch(next)
+  }  
+
   module.exports = {
       get,
       show,
       post,
-      patch
+      patch, 
+      destroy
   }
