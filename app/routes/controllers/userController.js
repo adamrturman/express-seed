@@ -1,13 +1,14 @@
 const express = require('express')
 // bcrypt docs: https://github.com/kelektiv/node.bcrypt.js
 const bcrypt = require('bcrypt')
-// see above for explanation of "salting", 10 rounds is recommended
 const bcryptSaltRounds = 10
-// instantiate a router (mini app that only handles routes)
+const crypto = require('crypto')
 // pull in error types and the logic to handle them and set status codes
 const errors = require('../../../lib/custom_errors')
 const User = require('../../models/user')
 const BadParamsError = errors.BadParamsError
+const BadCredentialsError = errors.BadCredentialsError
+
 
 const signUp = (req, res, next) => {
     // start a promise chain, so that any errors will pass to `handle`
@@ -75,9 +76,41 @@ const signIn = (req, res, next) => {
       res.status(201).json({ user: user.toObject() })
     })
     .catch(next)
-} 
+}
+
+const changePassword = (req, res, next) => {
+  let user
+  console.log("this is the request.user", req.user)
+  // `req.user` will be determined by decoding the token payload
+  User.findById(req.user.id)
+    // save user outside the promise chain
+    .then(record => { user = record })
+    // check that the old password is correct
+    .then(() => bcrypt.compare(req.body.passwords.old, user.hashedPassword))
+    // `correctPassword` will be true if hashing the old password ends up the
+    // same as `user.hashedPassword`
+    .then(correctPassword => {
+      // throw an error if the new password is missing, an empty string,
+      // or the old password was wrong
+      if (!req.body.passwords.new || !correctPassword) {
+        throw new BadParamsError()
+      }
+    })
+    // hash the new password
+    .then(() => bcrypt.hash(req.body.passwords.new, bcryptSaltRounds))
+    .then(hash => {
+      // set and save the new hashed password in the DB
+      user.hashedPassword = hash
+      return user.save()
+    })
+    // respond with no content and status 200
+    .then(() => res.sendStatus(204))
+    // pass any errors along to the error handler
+    .catch(next)
+}
 
   module.exports = {
       signUp,
-      signIn
+      signIn,
+      changePassword
   }
