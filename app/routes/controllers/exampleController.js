@@ -1,9 +1,7 @@
 const express = require('express')
-// Passport docs: http://www.passportjs.org/docs/
+const passport = require('passport')
 const handle404 = require('../../../lib/custom_errors')
 const { requireOwnership } = require('../../../lib/custom_errors')
-const passport = require('passport')
-const requireToken = passport.authenticate('bearer', { session: false })
 const Example = require('../../models/example')
 
 const get = (req, res, next) => {
