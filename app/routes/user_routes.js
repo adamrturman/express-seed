@@ -12,7 +12,7 @@ const { signIn } = require('./controllers/userController')
 const { changePassword } = require('./controllers/userController')
 const { signOut } = require('./controllers/userController')
 // const changePasswordMethod = require('./userRoutes/changePassword')
-const signOutMethod = require('./userRoutes/signOut')
+// const signOutMethod = require('./userRoutes/signOut')
 
 // router.use(signUpMethod.signUp)
 router.post('/sign-up', signUp)

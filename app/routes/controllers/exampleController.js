@@ -1,5 +1,6 @@
 const express = require('express')
 // Passport docs: http://www.passportjs.org/docs/
+const handle404 = require('../../../lib/custom_errors')
 const passport = require('passport')
 const requireToken = passport.authenticate('bearer', { session: false })
 const Example = require('../../models/example')
@@ -18,6 +19,17 @@ const get = (req, res, next) => {
       .catch(next)
   }
 
+  const show = (req, res, next) => {
+    // req.params.id will be set based on the `:id` in the route
+    Example.findById(req.params.id)
+      .then(handle404)
+      // if `findById` is succesful, respond with 200 and "example" JSON
+      .then(example => res.status(200).json({ example: example.toObject() }))
+      // if an error occurs, pass it to the handler
+      .catch(next)
+  }
+
   module.exports = {
-      get
+      get,
+      show
   }

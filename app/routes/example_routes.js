@@ -1,7 +1,11 @@
 // Express docs: http://expressjs.com/en/api.html
 const express = require('express')
+const passport = require('passport')
+const requireToken = passport.authenticate('bearer', { session: false })
+
 // const getMethod = require('./exampleRoutes/get')
 const { get } = require('./controllers/exampleController')
+const { show } = require('./controllers/exampleController')
 const postMethod = require('./exampleRoutes/post')
 const showMethod = require('./exampleRoutes/show')
 const patchMethod = require('./exampleRoutes/patch')
@@ -14,7 +18,8 @@ const router = express.Router()
 // router.use(getMethod.getAll)
 router.get('/examples', requireToken, get)
 router.use(postMethod.post)
-router.use(showMethod.show)
+// router.use(showMethod.show)
+router.get('/examples/:id', requireToken, show)
 router.use(patchMethod.patch)
 router.use(destroyMethod.destroy)
 
