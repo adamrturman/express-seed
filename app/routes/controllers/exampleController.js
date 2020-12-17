@@ -29,7 +29,23 @@ const get = (req, res, next) => {
       .catch(next)
   }
 
+const post = (req, res, next) => {
+    // set owner of new example to be current user
+    req.body.example.owner = req.user.id
+  
+    Example.create(req.body.example)
+      // respond to succesful `create` with status 201 and JSON of new "example"
+      .then(example => {
+        res.status(201).json({ example: example.toObject() })
+      })
+      // if an error occurs, pass it off to our error handler
+      // the error handler needs the error message and the `res` object so that it
+      // can send an error message back to the client
+      .catch(next)
+  }
+
   module.exports = {
       get,
-      show
+      show,
+      post
   }
